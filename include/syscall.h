@@ -24,6 +24,8 @@
 #define SYS_sleep 20
 #define SYS_uptime 21
 
-int sys_partAcount(void);
+// new calls
+#define SYS_FirstPart 22
+// int sys_FirstPart(void);
 
 #endif // _SYSCALL_H_

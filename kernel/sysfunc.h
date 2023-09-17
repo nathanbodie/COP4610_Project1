@@ -24,4 +24,7 @@ int sys_wait(void);
 int sys_write(void);
 int sys_uptime(void);
 
+// new system call handlers
+int sys_FirstPart(void);
+
 #endif // _SYSFUNC_H_

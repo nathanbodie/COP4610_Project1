@@ -5,9 +5,10 @@
 #include "stat.h"
 #include "user.h"
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-  printf(1, "%s", "** Placeholder program for grading scripts **\n");
-  exit();
+    printf(1, "PID count before getpid(): %d\n", FirstPart());
+    getpid();
+    printf(1, "PID count after getpid(): %d\n", FirstPart());
+    exit();
 }

@@ -75,6 +75,8 @@ int argstr(int n, char **pp)
 // syscall function declarations moved to sysfunc.h so compiler
 // can catch definitions that don't match
 
+extern int sys_FirstPart(void);
+
 // array of function pointers to handlers for all the syscalls
 static int (*syscalls[])(void) = {
     [SYS_chdir] sys_chdir,
@@ -98,8 +100,7 @@ static int (*syscalls[])(void) = {
     [SYS_wait] sys_wait,
     [SYS_write] sys_write,
     [SYS_uptime] sys_uptime,
-    //[SYS_partAcount] sys_partAcount,
-};
+    [SYS_FirstPart] sys_FirstPart};
 
 // Called on a syscall trap. Checks that the syscall number (passed via eax)
 // is valid and then calls the appropriate handler for the syscall.
@@ -119,10 +120,3 @@ void syscall(void)
         proc->tf->eax = -1;
     }
 }
-
-// int getPidCallCount = 0;
-
-// int sys_partAcount(void) {
-//     getPidCallCount++;
-//     return getPidCallCount;
-// }
