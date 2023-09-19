@@ -6,26 +6,31 @@
 #include "proc.h"
 #include "sysfunc.h"
 
-int sys_fork(void)
+int sysCallTotal = 0;
+
+extern int sys_fork(void)
 {
+    sysCallTotal++;
     return fork();
 }
 
-int sys_exit(void)
+extern int sys_exit(void)
 {
+    sysCallTotal++;
     exit();
     return 0; // not reached
 }
 
-int sys_wait(void)
+extern int sys_wait(void)
 {
+    sysCallTotal++;
     return wait();
 }
 
-int sys_kill(void)
+extern int sys_kill(void)
 {
     int pid;
-
+    sysCallTotal++;
     if (argint(0, &pid) < 0)
         return -1;
     return kill(pid);
@@ -33,17 +38,18 @@ int sys_kill(void)
 
 int pidCallCount = 0;
 
-int sys_getpid(void)
+extern int sys_getpid(void)
 {
+    sysCallTotal++;
     pidCallCount++;
     return proc->pid;
 }
 
-int sys_sbrk(void)
+extern int sys_sbrk(void)
 {
     int addr;
     int n;
-
+    sysCallTotal++;
     if (argint(0, &n) < 0)
         return -1;
     addr = proc->sz;
@@ -52,11 +58,11 @@ int sys_sbrk(void)
     return addr;
 }
 
-int sys_sleep(void)
+extern int sys_sleep(void)
 {
     int n;
     uint ticks0;
-
+    sysCallTotal++;
     if (argint(0, &n) < 0)
         return -1;
     acquire(&tickslock);
@@ -76,17 +82,23 @@ int sys_sleep(void)
 
 // return how many clock tick interrupts have occurred
 // since boot.
-int sys_uptime(void)
+extern int sys_uptime(void)
 {
     uint xticks;
-
+    sysCallTotal++;
     acquire(&tickslock);
     xticks = ticks;
     release(&tickslock);
     return xticks;
 }
 
-int sys_FirstPart(void)
+extern int sys_FirstPart(void)
 {
+    sysCallTotal++;
     return pidCallCount;
+}
+
+extern int sys_SecondPart(void) {
+    sysCallTotal++;
+    return sysCallTotal;
 }

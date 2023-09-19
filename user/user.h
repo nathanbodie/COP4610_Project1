@@ -28,6 +28,7 @@ int uptime(void);
 
 // new calls
 int FirstPart(void);
+int SecondPart(void);
 
 // user library functions (ulib.c)
 int stat(char *, struct stat *);

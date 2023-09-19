@@ -26,5 +26,6 @@ int sys_uptime(void);
 
 // new system call handlers
 int sys_FirstPart(void);
+int sys_SecondPart(void);
 
 #endif // _SYSFUNC_H_

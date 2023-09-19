@@ -26,6 +26,7 @@
 
 // new calls
 #define SYS_FirstPart 22
+#define SYS_SecondPart 23
 // int sys_FirstPart(void);
 
 #endif // _SYSCALL_H_

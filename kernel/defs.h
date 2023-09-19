@@ -141,6 +141,7 @@ void syscall(void);
 
 // sysproc.c
 int FirstPart(void);
+int SecondPart(void);
 
 // timer.c
 void timerinit(void);

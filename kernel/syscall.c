@@ -14,7 +14,7 @@
 // to a saved program counter, and then the first argument.
 
 // Fetch the int at addr from process p.
-int fetchint(struct proc *p, uint addr, int *ip)
+extern int fetchint(struct proc *p, uint addr, int *ip)
 {
     if (addr >= p->sz || addr + 4 > p->sz)
         return -1;
@@ -25,7 +25,7 @@ int fetchint(struct proc *p, uint addr, int *ip)
 // Fetch the nul-terminated string at addr from process p.
 // Doesn't actually copy the string - just sets *pp to point at it.
 // Returns length of string, not including nul.
-int fetchstr(struct proc *p, uint addr, char **pp)
+extern int fetchstr(struct proc *p, uint addr, char **pp)
 {
     char *s, *ep;
 
@@ -40,7 +40,7 @@ int fetchstr(struct proc *p, uint addr, char **pp)
 }
 
 // Fetch the nth 32-bit system call argument.
-int argint(int n, int *ip)
+extern int argint(int n, int *ip)
 {
     return fetchint(proc, proc->tf->esp + 4 + 4 * n, ip);
 }
@@ -48,7 +48,7 @@ int argint(int n, int *ip)
 // Fetch the nth word-sized system call argument as a pointer
 // to a block of memory of size n bytes.  Check that the pointer
 // lies within the process address space.
-int argptr(int n, char **pp, int size)
+extern int argptr(int n, char **pp, int size)
 {
     int i;
 
@@ -64,7 +64,7 @@ int argptr(int n, char **pp, int size)
 // Check that the pointer is valid and the string is nul-terminated.
 // (There is no shared writable memory, so the string can't change
 // between this check and being used by the kernel.)
-int argstr(int n, char **pp)
+extern int argstr(int n, char **pp)
 {
     int addr;
     if (argint(n, &addr) < 0)
@@ -76,6 +76,7 @@ int argstr(int n, char **pp)
 // can catch definitions that don't match
 
 extern int sys_FirstPart(void);
+extern int sys_SecondPart(void);
 
 // array of function pointers to handlers for all the syscalls
 static int (*syscalls[])(void) = {
@@ -100,7 +101,8 @@ static int (*syscalls[])(void) = {
     [SYS_wait] sys_wait,
     [SYS_write] sys_write,
     [SYS_uptime] sys_uptime,
-    [SYS_FirstPart] sys_FirstPart};
+    [SYS_FirstPart] sys_FirstPart,
+    [SYS_SecondPart] sys_SecondPart};
 
 // Called on a syscall trap. Checks that the syscall number (passed via eax)
 // is valid and then calls the appropriate handler for the syscall.
